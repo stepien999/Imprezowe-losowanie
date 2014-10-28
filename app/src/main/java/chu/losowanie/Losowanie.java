@@ -43,6 +43,8 @@ public class Losowanie extends Activity {
 
                 tresc.setText(zadania.get(i));*/
 
+                //test
+
                 tresc.setText(zadania.getFirst());
                 zadania.removeFirst();
 
