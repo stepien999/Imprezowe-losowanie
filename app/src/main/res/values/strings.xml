@@ -4,5 +4,9 @@
     <string name="app_name">Losowanie</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_menu">Menu</string>
+    <string name="wybierz">Wybierz kategorię</string>
+    <string name="losowanie">Kliknij losuj, aby wylosować zadanie</string>
+    <string name="title_activity_glowny">Glowny</string>
 
 </resources>

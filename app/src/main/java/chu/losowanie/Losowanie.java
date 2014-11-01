@@ -1,6 +1,7 @@
 package chu.losowanie;
 
 import android.app.Activity;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -8,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Random;
@@ -28,10 +31,45 @@ public class Losowanie extends Activity {
         tresc = (TextView) findViewById(R.id.tresc);
         losuj = (Button) findViewById(R.id.losuj);
 
-        zadania.addLast("Pokaż termofor");
+        DataBaseHelper myDbHelper = new DataBaseHelper(this);
+
+        try
+        {
+            myDbHelper.createDataBase();
+            //tresc.setText("sukces");
+        }
+        catch (IOException ioe)
+        {
+            //tresc.setText("blad");
+            throw new Error("Unable to create database");
+        }
+
+        try
+        {
+            myDbHelper.openDataBase();
+            //tresc.setText("SUCCESS!");
+
+        }
+        catch(SQLException sqle)
+        {
+            try {
+                throw sqle;
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        /*zadania.addLast("Pokaż termofor");
         zadania.addLast("Udawaj alpakę");
         zadania.addLast("Udawaj kromkę chleba");
-        zadania.addLast("Pokaż portfel");
+        zadania.addLast("Pokaż portfel");*/
+
+        Cursor k = myDbHelper.dajWszystkie();
+        while(k.moveToNext()){
+            int id=k.getInt(0);
+            String tresc=k.getString(1);
+            zadania.addLast(tresc);
+        }
 
         Collections.shuffle(zadania);
 
@@ -48,8 +86,7 @@ public class Losowanie extends Activity {
                 tresc.setText(zadania.getFirst());
                 zadania.removeFirst();
 
-                if(zadania.size() == 0)
-                {
+                if (zadania.size() == 0) {
                     tresc.setText("Koniec zadań");
                     losuj.setOnClickListener(null);
                 }
